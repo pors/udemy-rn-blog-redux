@@ -1,10 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { Context } from '../context/BlogContext';
+import { useSelector } from 'react-redux';
 import { Feather } from '@expo/vector-icons';
 
+
 const ShowScreen = ({ navigation }) => {
-    const { state } = useContext(Context);
+    const state = useSelector(state => state.blogReducer);
     const id = navigation.getParam('id');
 
     const blogPost = state.find((blogPost) => blogPost.id === id);

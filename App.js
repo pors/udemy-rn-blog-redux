@@ -1,11 +1,15 @@
 import React from 'react';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import rootReducer from './src/reducers';
 import IndexScreen from './src/screens/IndexScreen';
 import ShowScreen from './src/screens/ShowScreen';
 import CreateScreen from './src/screens/CreateScreen';
 import EditScreen from './src/screens/EditScreen';
-import { Provider } from './src/context/BlogContext';
+
 
 const navigator = createStackNavigator({
     Index: IndexScreen,
@@ -21,9 +25,15 @@ const navigator = createStackNavigator({
 
 const App = createAppContainer(navigator);
 
+const middleware = [];
+
+const store = createStore(rootReducer, composeWithDevTools(
+    applyMiddleware(...middleware),
+));
+
 export default () => {
     return (
-        <Provider>
+        <Provider store={store}>
             <App />
         </Provider>
     );

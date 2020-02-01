@@ -1,14 +1,15 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { StyleSheet } from 'react-native';
-import { Context } from '../context/BlogContext';
+import { useDispatch } from 'react-redux';
 import BlogPostForm from '../components/BlogPostForm';
+import allActions from '../actions';
 
 const CreateScreen = ({ navigation }) => {
-    const { addBlogPost } = useContext(Context);
+    const dispatch = useDispatch();
 
     return (
         <BlogPostForm
-            onSubmit={(title, content) => { addBlogPost(title, content, () => navigation.navigate('Index')); }}
+            onSubmit={(title, content) => { allActions.blogActions.addBlogPost(dispatch, title, content, () => navigation.navigate('Index')); }}
         />
     );
 };

@@ -1,16 +1,18 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
-import { Context } from '../context/BlogContext';
+import { useSelector, useDispatch } from 'react-redux';
 import { Feather } from '@expo/vector-icons';
+import allActions from '../actions';
 
 const IndexScreen = ({ navigation }) => {
-    const { state, deleteBlogPost, getBlogPosts } = useContext(Context);
+    const state = useSelector(state => state.blogReducer);
+    const dispatch = useDispatch();
 
     useEffect (() => {
-        getBlogPosts();
+        allActions.blogActions.getBlogPosts(dispatch);
 
         const listener = navigation.addListener('didFocus', () => {
-            getBlogPosts();
+            allActions.blogActions.getBlogPosts(dispatch);
         });
 
         return () => {
@@ -28,7 +30,7 @@ const IndexScreen = ({ navigation }) => {
                         <TouchableOpacity onPress={() => navigation.navigate('Show', { id:item.id })}>
                             <View style={style.row}>
                                 <Text style={style.title}>{item.title} - {item.id}</Text>
-                                <TouchableOpacity onPress={() => deleteBlogPost(item.id)}>
+                                <TouchableOpacity onPress={() => allActions.blogActions.deleteBlogPost(dispatch, item.id)}>
                                     <Feather style={style.icon} name="trash" />
                                 </TouchableOpacity>
                             </View>
